@@ -1,0 +1,2 @@
+pyopenvidu>=0.1.2
+flask
