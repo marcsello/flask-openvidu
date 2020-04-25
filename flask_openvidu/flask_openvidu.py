@@ -24,15 +24,17 @@ class OpenVidu(object):
     def init_app(app):
         app.config.setdefault('OPENVIDU_URL', None)
         app.config.setdefault('OPENVIDU_SECRET', None)
+        app.config.setdefault('OPENVIDU_AUTO_FETCH', True)
 
-    @staticmethod
-    def connect() -> pyopenvidu.OpenVidu:
-        if not (current_app.config['OPENVIDU_URL'] and current_app.config['OPENVIDU_SECRET']):
+        if not (app.config['OPENVIDU_URL'] and app.config['OPENVIDU_SECRET']):
             raise RuntimeError("OPENVIDU_URL and OPENVIDU_SECRET must be configured.")
 
-        return pyopenvidu.OpenVidu(
-            current_app.config['OPENVIDU_URL'],
-            current_app.config['OPENVIDU_SECRET']
+        app.extensions = getattr(app, 'extensions', {})
+
+        # This solution relies on OpenVidu class' internal locking for thread safety
+        app.extensions['openvidu'] = pyopenvidu.OpenVidu(
+            app.config['OPENVIDU_URL'],
+            app.config['OPENVIDU_SECRET']
         )
 
     @ClassProperty
@@ -41,10 +43,18 @@ class OpenVidu(object):
         """
         Get or create the OpenVidu instance belongs to the current Flask application.
 
+        If OPENVIDU_AUTO_FETCH is configured as True (this is the default), than fetch() will be called
+        on the OpenVidu object before returning it at the first time accessing to it. This means only
+        a single fetch() call during the handle of each request.
+
         :return: an OpenVidu instance configured according to the Flask configuration.
         """
         ctx = _app_ctx_stack.top
         if ctx is not None:
-            if not hasattr(ctx, 'openvidu'):
-                ctx.openvidu = cls.connect()
+            if not hasattr(ctx, 'openvidu'):  # first time called during this request
+                ctx.openvidu = current_app.extensions['openvidu']
+
+                if current_app.config['OPENVIDU_AUTO_FETCH']:
+                    ctx.openvidu.fetch()
+
             return ctx.openvidu
