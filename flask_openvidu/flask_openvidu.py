@@ -3,7 +3,7 @@ import pyopenvidu
 from flask import current_app, _app_ctx_stack
 
 
-class ClassProperty(property):  # This is an ugly solution, but we want to use class level properties
+class _ClassProperty(property):  # This is an ugly solution, but we want to use class level properties
     def __get__(self, cls, owner):
         return self.fget.__get__(None, owner)()
 
@@ -37,7 +37,7 @@ class OpenVidu(object):
             app.config['OPENVIDU_SECRET']
         )
 
-    @ClassProperty
+    @_ClassProperty
     @classmethod
     def connection(cls) -> pyopenvidu.OpenVidu:
         """
