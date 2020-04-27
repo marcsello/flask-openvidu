@@ -3,25 +3,32 @@ import pyopenvidu
 from flask import current_app, _app_ctx_stack
 
 
-class _ClassProperty(property):  # This is an ugly solution, but we want to use class level properties
-    def __get__(self, cls, owner):
-        return self.fget.__get__(None, owner)()
-
-
 class OpenVidu(object):
     """
-    This is a static class that provides you an OpenVidu object configured by Flask.
+    This class provides an OpenVidu object configured by Flask.
     """
 
-    # Yup, this class does only support a similar pattern to the standard Flask extension's factory pattern
-    # This is used so that you do not have to create an instance of this class to cause import problems all around your app
-    # If you will ever need the traditional pattern for some reason, feel free to open a pull request
+    def __init__(self, app=None):
+        """
+        Initialize the OpenVidu object according to Flask config.
 
-    def __init__(self):
-        raise RuntimeError("This is a static class\nUse OpenVidu.connection to access the OpenVidu instance")
+        Note: If app provided, an initial fetch() will be issued, as the OpenVidu object is created.
+
+        :param app: Optional Flask application to be bound.
+        """
+        self.app = app
+        if app:
+            self.init_app(app)
 
     @staticmethod
     def init_app(app):
+        """
+        Initialize the OpenVidu object according to Flask config.
+
+        Note: Calling this function will do an initial fetch() call, as the OpenVidu object is created.
+
+        :param app: Flask application to be bound.
+        """
         app.config.setdefault('OPENVIDU_URL', None)
         app.config.setdefault('OPENVIDU_SECRET', None)
         app.config.setdefault('OPENVIDU_AUTO_FETCH', True)
@@ -37,9 +44,8 @@ class OpenVidu(object):
             app.config['OPENVIDU_SECRET']
         )
 
-    @_ClassProperty
-    @classmethod
-    def connection(cls) -> pyopenvidu.OpenVidu:
+    @property
+    def connection(self) -> pyopenvidu.OpenVidu:
         """
         Get or create the OpenVidu instance belongs to the current Flask application.
 
