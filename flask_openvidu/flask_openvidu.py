@@ -11,6 +11,7 @@ class OpenVidu(object):
     def __init__(self, app=None):
         """
         Initialize the OpenVidu object according to Flask config.
+        Factory pattern is supported as well. See `init_app()`.
 
         Note: If app provided, an initial fetch() will be issued, as the OpenVidu object is created.
 
@@ -20,8 +21,7 @@ class OpenVidu(object):
         if app:
             self.init_app(app)
 
-    @staticmethod
-    def init_app(app):
+    def init_app(self, app):
         """
         Initialize the OpenVidu object according to Flask config.
 
