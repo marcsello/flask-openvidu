@@ -10,7 +10,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['pyopenvidu>=0.1.2', 'flask']
+requirements = ['pyopenvidu>=0.1.3', 'flask']
 
 setup_requirements = []
 
