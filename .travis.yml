@@ -5,7 +5,6 @@ python:
   - 3.8
   - 3.7
 
-
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: pip install -U tox-travis
 
@@ -16,7 +15,7 @@ script: tox
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
-  user: marcsello
+  user: "__token__"
   password:
     secure: "GJ8tBmG5bNjCjXkIM8h/vNqi+i1mIl47svtdmN2LUdp24rsUsAtPuo+jDjUWTBHkCIpddmGGiad0y2Re0C3xVJCDVmXadOs7A+o7i8LQ/XCMlYKO8/FDhoiRMNgpDpSt0FEDtAx7fxyZnu4V96yaWat29Vymd+TrZQVWmQP3x/siqmijo6JlRGsdGGd/w59uMY5vyH9oiBEAETNoiOoZcPXDfWvykn+ZFNYLB8SqZG6rYtawcD2jHBiqT6V8h5AX0UhsFbOq0gfcFs/oBG1eU4g4jMqJtEv+RX2PQlUXMlnKL244ktyiJj1fS/bu/GfnOJSB5cM8z+5doYVkv9fDtjWWuZ3eujwkiMD8ieouekpJEZmh3I03IHh6VCBOl5NGwM0k4eNBwQ/1cCGuPV/BM5LtWPFg5Qq1wvd6HCTmh7FjWpPXsJHP5mFSBD7nfi8YduHl2FYmMNGqFcKTOfmYA9Crl2TAgnRaKA957un1CxdNFNsJspHXYghQsT74LDyV3AW0xlCxhD7zxCKN3Fkv9khQIhqQMf1FfZfNNVrF0oJb7X+hPdDDwzxAG7LUe2rMykXUrJBw0Gz1zwIXL3UM62JwQfwJkwoGyYjyii7hi7q+v9x8x3mvzYAG6AXP0hAvpJQ4rf7dXeT5GOHpq340v9Ikw2vfnwY1/oyYyPiko6M="
   on:
