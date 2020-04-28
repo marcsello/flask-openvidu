@@ -25,8 +25,8 @@ Adds OpenVidu_ support to your Flask application through PyOpenVidu_.
 * Free software: MIT license
 * Documentation: https://flask-openvidu.readthedocs.io.
 
-Usage
------
+Simple example
+--------------
 
 A basic Flask app that lists the currently active sessions on the server::
 
@@ -35,15 +35,15 @@ A basic Flask app that lists the currently active sessions on the server::
 
     app = Flask(__name__)
 
-    app.config["OPENVIDU_URL"] = "/"
+    app.config["OPENVIDU_URL"] = "https://example.com:4443/"
     app.config["OPENVIDU_SECRET"] = "your_secret"
 
-    OpenVidu.init_app(app)
+    ov = OpenVidu(app)
 
     @app.route('/sessions')
     def sessions():
         text = ""
-        for session in OpenVidu.connection.sessions:
+        for session in ov.connection.sessions:
             text += session.id + "\n"
 
         return text

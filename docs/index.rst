@@ -1,14 +1,16 @@
-Welcome to Flask-OpenVidu's documentation!
-======================================
+.. include:: ../README.rst
+
+Documentation
+=============
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   readme
    installation
    usage
-   modules
+   configuration
+   source/modules
    contributing
    authors
    history
