@@ -12,9 +12,9 @@ with open('HISTORY.rst') as history_file:
 
 requirements = ['pyopenvidu>=0.1.3', 'flask']
 
-setup_requirements = []
+setup_requirements = ['pytest-runner', ]
 
-test_requirements = []
+test_requirements = ['pytest>=3', 'pytest-mock']
 
 setup(
     author="Marcell Pünkösd",
@@ -38,12 +38,12 @@ setup(
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='flask_openvidu',
-    name='flask_openvidu',
+    name='flask-openvidu',
     packages=find_packages(include=['flask_openvidu', 'flask_openvidu.*']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/marcsello/flask_openvidu',
+    url='https://github.com/marcsello/flask-openvidu',
     project_urls={
         "Documentation": "https://flask-openvidu.readthedocs.io/",
         "Code": "https://github.com/marcsello/flask-openvidu",
